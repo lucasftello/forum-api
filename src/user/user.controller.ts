@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Inject,
   Param,
   Patch,
@@ -17,28 +19,34 @@ export class UserController {
   private readonly userService: UserService;
 
   @Post('')
+  @HttpCode(HttpStatus.CREATED)
   async create(@Body() userData: Prisma.UserCreateInput): Promise<User> {
-    return this.userService.createUser(userData);
+    return await this.userService.createUser(userData);
   }
 
   @Get(':id')
+  @HttpCode(HttpStatus.OK)
   async show(@Param('id') id: string): Promise<User | null> {
-    return this.userService.getUser(id);
+    return await this.userService.getUser(id);
   }
 
   @Patch(':id')
+  @HttpCode(HttpStatus.OK)
   async update(
     @Param('id') id: string,
     @Body() userData: Prisma.UserUpdateInput,
   ): Promise<User> {
-    return this.userService.updateUser({
+    return await this.userService.updateUser({
       id,
       data: userData,
     });
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string): Promise<User> {
-    return this.userService.deleteUser({ id: Number(id) });
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async delete(@Param('id') id: string): Promise<[]> {
+    await this.userService.deleteUser(id);
+
+    return [];
   }
 }
