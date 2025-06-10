@@ -23,7 +23,7 @@ export class UserController {
 
   @Get(':id')
   async show(@Param('id') id: string): Promise<User | null> {
-    return this.userService.user(id);
+    return this.userService.getUser(id);
   }
 
   @Patch(':id')

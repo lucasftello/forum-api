@@ -8,7 +8,7 @@ export class UserService {
   @Inject()
   private readonly prisma: PrismaService;
 
-  async user(id: string): Promise<User | null> {
+  async getUser(id: string): Promise<User | null> {
     return await this.prisma.user.findUnique({
       where: {
         id: Number(id),
